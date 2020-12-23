@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    *{
+        margin:0;
+        padding:0;
+    }
+
+    .full_cont{
+        width: 100%;
+        height: 100%;
+    }
+
+    .rel{
+        position: relative;
+    }
+
+    .abs{
+        position: absolute;
+    }
+
+    .tl{
+        left: 0;
+        top: 0;
+    }
+
+    .overflow_hidden{
+        overflow: hidden;
+    }
+
+    .flex_center{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    body{
+        background: rgba(20,20,20,1);
+        cursor:pointer;
+        width:100%;
+        height:100%;
+        opacity:1;
+    }
+
+    .gradient-text {
+        background-color: #f3ec78;
+        background-image: radial-gradient(hsl(86deg 100% 68%),hsl(0deg 0% 100%),hsl(80deg 100% 71% / 92%));
+        /*background-image: radial-gradient(hsl(224deg 53% 67%),hsl(0deg 0% 100%),hsl(129deg 100% 50%));*/
+        background-size: 50%;
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -moz-text-fill-color: transparent;
+    }
+
+    .gradientanim{
+        animation-name: gradient_anim;
+        animation-duration: 16s;
+        animation-timing-function: ease-in;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-delay: 3s;
+    } @keyframes gradient_anim{
+        0%{
+            background-size: 100%;
+        } 100% {
+            background-size: 1000%;
+        }
+    }
+
+    .orange_gradient{
+        font-family: Arial;
+        background-image: linear-gradient(#FAA300, #ED7E00);
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 2.5em;
+        width: 75%;
+        height: 75%;
+        border-radius: 20px;
+        border: 2px #DB7E00 solid;
+        color: white;
+    }
+
+    #hud{
+        height:30px;
+        position:relative;
+        animation-name:medal_timer;
+        animation-duration: 40s;
+        animation-fill-mode:forward;
+        /*border: 2px black solid;*/
+        animation-timing-function: linear;
+        background: gray;
+        pointer-events:none;
+    } @keyframes medal_timer{
+        0%{right:100%;background:white;}
+        35%{right:65%;background:green;}
+        50%{right:50%;background:yellow;}
+        90%{right:10%;background:red;}
+        100%{right:0%;background:white;}
+    }
+
+    .gamebackground{
+        /*background-color: lightyellow;*/
+        background-size: 100% 100%;
+        background-image: url("http://www.spriteland.com/sprites/downloads/dark-mountain-vector-background_SVG.svg");
+        opacity: 1;
+        animation-name: background_animation;
+        animation-duration: 6s;
+        animation-iteration-count: infinite;
+        animation-fill-mode: forwards;
+        animation-timing-: ease-in-out;
+    } @keyframes background_animation{
+        0%{opacity:1;}
+        50%{opacity:0.9;}
+        100%{opacity:1;}
+    }
+
+    #block_animation{
+        width: 60px;
+        height: 60px;
+        top:0px;
+        background:#BD9159;
+        animation-name:block_creation_animation;
+        animation-fill-mode: none;
+        animation-iteration-count: 1;
+        animation-duration:0.09s;
+        animation-timing-:linear;
+        z-index: 1;
+        position: absolute;
+        opacity:0;
+        /*pointer-events:none;*/
+    } @keyframes block_creation_animation{
+        from{background:#ffffff;opacity:0;}
+        to{background:#BD9159;opacity:1;}
+    }
+
+    table {
+        border-spacing: 0px;
+    }
+
+    table tr td{
+        position:relative;
+        width: 60px;
+        height: 60px;
+        opacity: 1;
+        text-align: center;
+    }
+
+    .fadeInAnimation{
+        animation-name:fadeIn;
+        animation-duration:1s;
+        animation-timing-: ease-out;
+        animation-fill-mode: forwards;
+    }
+
+    #verdict_screen{
+        font-size: 5em;
+        position: absolute;
+        user-select: none;
+        text-align: center;
+        display: table-cell;
+    }
+
+    #btn_restart, #btn_next, #btn_main_menu{
+        z-index: 0;
+    }
+
+    .sparky{
+        animation-name:sparky_anim;
+        animation-duration: 1s;
+        animation-timing-function: ease;
+    } @keyframes sparky_anim{
+        0%{ filter: brightness(1); opacity:0; transform: scale(1); }
+        10%{ filter: brightness(3); opacity:0.8; transform: scale(1); }
+        15%{ filter: brightness(1); opacity:0; transform: scale(1); }
+        20%{ filter: brightness(3); opacity:0.8; transform: scale(1); }
+        100%{ filter: brightness(0.8); opacity:0; transform: scale(7); }
+    }
+
+    .sparky2{
+        animation-name:sparky2_anim;
+        animation-duration: 0.55s;
+        animation-timing-function: ease-in;
+    } @keyframes sparky2_anim{
+        from{ filter: brightness(4); opacity:1; transform: scale(4); }
+        to{ filter: brightness(1); opacity:0; transform: scale(0.3); }
+    }
+
+    .sparky3{
+        animation-name:sparky3_anim;
+        animation-duration: 0.55s;
+        animation-timing-function: ease-in;
+    } @keyframes sparky3_anim{
+        from{ filter: brightness(4); opacity:1; transform: scale(4); }
+        to{ filter: brightness(1); opacity:0.45; transform: scale(0.3); }
+    }
+
+    .rotation{
+        animation-name:rotation_anim;
+        animation-duration: 6s;
+        animation-timing-function: ease;
+    } @keyframes rotation_anim{
+        0%{ filter: brightness(1); opacity:0; transform: scale(0.3) rotate(0deg); }
+        15%{ filter: brightness(4); opacity:1; transform: scale(7) rotate(0deg); }
+        70%{ filter: brightness(4); opacity:1; transform: scale(7) rotate(70deg); }
+        100%{ filter: brightness(1); opacity:0; transform: scale(0.3) rotate(250deg); }
+    }
+
+    .star_polygon{
+        clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+    }
+
+    .diamond{
+        clip-path: polygon(8% 0%, 16% 50%, 8% 100%, 0 50%);
+    }
+
+    .multistar{
+        clip-path: polygon(54% 28%, 55% 36%, 64% 30%, 61% 40%, 69% 37%, 64% 44%, 74% 45%, 65% 50%, 72% 55%, 64% 56%, 70% 64%, 60% 61%, 62% 69%, 56% 64%, 54% 73%, 49% 65%, 45% 72%, 44% 64%, 37% 69%, 39% 61%, 31% 62%, 36% 56%, 28% 54%, 35% 50%, 29% 46%, 36% 44%, 30% 37%, 40% 39%, 39% 31%, 44% 36%, 46% 26%, 51% 35%);
+    }
+
+    .bigbang{
+        animation-name:bigbang_anim;
+        animation-duration: 3s;
+        animation-timing-function: ease-in-out;
+    } @keyframes bigbang_anim{
+        0%{ filter: brightness(4); opacity:1; transform: scale(2); }
+        10%{ filter: brightness(1); opacity:0; transform: scale(0.5) rotate(0deg); }
+        40%{ filter: brightness(1); opacity:1; transform: scale(4) rotate(30deg);}
+        90%{ filter: brightness(1); opacity:1; transform: scale(4) rotate(55deg);}
+        100%{ filter: brightness(1); opacity:0; transform: scale(1) rotate(85deg);}
+    }
+
+    .indy_rotate{
+        animation-name:indy_rotate_anim;
+        animation-duration: 2s;
+        animation-timing-function: ease;
+        animation-iteration-count: infinite;
+    } @keyframes indy_rotate_anim{
+        0%{ transform: rotate(0deg); opacity:1}
+        100%{ transform: rotate(250deg); opacity:1}
+    }
+
+    .animbg{ animation:animbg 1s ease-in-out infinite; }
+    @keyframes animbg {
+        0%, 100% {background: rgba(240,240,240); }
+        50% {background: #fff;}
+    }
+
+    @keyframes sphorizontal {
+        0%, 100%{ transform: translateX(0);}
+        50% { transform: translateX(-5px);  }
+    }
+    @keyframes spvertical {
+        0%, 100%{ transform: translateY(0); }
+        50% { transform: translateY(5px);}
+    }
+
+    /* ------------------------------------- HUD Buttons *****************************************/
+    #hud_button_container{
+        position: absolute;
+        z-index:1;
+        right:0px;
+    }
+
+    .hud_button_restart{
+        height: 2em;
+        padding: .25em;
+        width: 2em;
+        position: relative;
+        z-index:7;
+        animation-name:fadeIn;
+        animation-duration:1s;
+        animation-timing-: ease-out;
+        animation-fill-mode: forwards;
+    } .hud_button_restart::before{
+        content: '';
+        display: block;
+        border-color: transparent #fff #fff #fff;
+        border-radius: 75%;
+        border-style: solid;
+        border-width: .25em;
+        height: 0.9em;
+        width: 0.9em;
+        -webkit-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        transform: rotate(45deg);
+        left:5%;
+        position: absolute;
+        top: 3px;
+        z-index:7;
+    } .hud_button_restart::after {
+        content: '';
+        display: block;
+        border-color: transparent transparent transparent #fff;
+        border-style: solid;
+        border-width: .425em 0 .425em 0.75em;
+        height: 0;
+        position: absolute;
+        top: 0%;
+        left: 25%;
+        width: 0;
+        z-index:7;
+    }
+
+    .hud_button_pause{
+        position: relative;
+        background: #fff;
+        margin:auto 0px;
+        box-shadow: 0 0px 0  0 #fff;
+        box-shadow: 0px 12px 0  0 #fff;
+        transform: rotate(90deg);
+        height: 10px;
+        width: 40px;
+    }
+
+    .hud_button_play{
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 20px solid #ccc;
+        position: relative;
+    }
+
+    .hud_button_menu{
+        position: relative;
+        background: #fff;
+        margin:3px 0px;
+        box-shadow:
+            0 8px 0 0 #fff,
+            0 16px 0 0 #fff;
+        height: 6px;
+    }
+
+    .hud_button_crate_create{
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 20px solid #fff;
+        transform: rotate(270deg);
+        position: relative;
+    }
+
+    .hud_button_crate_destroy{
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 20px solid #fff;
+        top: 8px;
+        transform: rotate(90deg);
+        position: relative;
+    }
+
+    .hud_button_template{
+        width: 28px;
+        height: 28px;
+        position: relative;
+        display: inline-block;
+        float: left;
+        border: 1px transparent solid;
+        font-family: Arial;
+        letter-spacing: -5px;
+        font-weight: bold;
+        top:0px;
+        bottom:0px;
+        z-index:5;
+    }
+
+    /* ------------------------------------ Gamescore Screen ------------------------------------*/
+    #restart_level{
+        height: 2em;
+        padding: .25em;
+        width: 2em;
+        position: relative;
+        z-index:7;
+        animation-name:fadeIn;
+        animation-duration:1s;
+        animation-timing-: ease-out;
+        animation-fill-mode: forwards;
+    } #restart_level::before{
+        content: '';
+        display: block;
+        border-color: transparent #A8A8A8 #A8A8A8 #A8A8A8;
+        border-radius: 75%;
+        border-style: solid;
+        border-width: .25em;
+        height: 2.5em;
+        width: 2.5em;
+        -webkit-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        transform: rotate(45deg);
+        left:45%;
+        position: absolute;
+        top: 0;
+        z-index:7;
+    } #restart_level::after {
+        content: '';
+        display: block;
+        border-color: transparent transparent transparent #A8A8A8;
+        border-style: solid;
+        border-width: .625em 0 .625em 1em;
+        height: 0;
+        position: absolute;
+        top: -17%;
+        left: 100%;
+        width: 0;
+        z-index:7;
+    }
+
+    #main_menu{
+        position: relative;
+        animation-name:fadeIn;
+        animation-duration: 1s;
+        animation-timing-: ease-out;
+        animation-fill-mode: forwards;
+    } #main_menu::after{
+        position: absolute;
+        content: "";
+        bottom:12px;
+        margin:0px -25px;
+        width: 50px;
+        height: 8px;
+        background: #A6A6A7;
+        box-shadow:
+            0 16px 0 0 #A6A6A7,
+            0 32px 0 0 #A6A6A7;
+    }
+
+    #next_level{
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 18.75px 0 18.75px 37.5px;
+        border-color: transparent transparent transparent #A8A8A8;
+        text-align: center;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        z-index:7;
+        animation-name:fadeIn;
+        animation-duration: 1s;
+        animation-timing-: ease-out;
+        animation-fill-mode: forwards;
+    }
+
+    button{
+        width: 75px;
+        height: 75px;
+        border-radius: 15%;
+        margin: 0 5px;
+        cursor: pointer;
+        outline: none;
+        animation-name:fadeIn;
+        animation-duration:1s;
+        animation-timing-: ease-out;
+        animation-fill-mode: forwards;
+    }
+
+    #medal {/* MEDAL BAR HANDLE */
+        margin: 15px;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        border: 3px solid yellow;
+        border-bottom: transparent;
+        -moz-border-radius:    15px;
+        -webkit-border-radius: 15px;
+        border-radius:         15px;
+        height: 10px;
+        width: 10px;
+        animation-name:fadeIn;
+        animation-duration:1s;
+        animation-timing-: ease-out;
+        animation-fill-mode: forwards;
+        opacity: 1;
+        z-index:4;
+    } #medal::after {/* MEDAL */
+        content: '';
+        right: -36px;
+        top: 5px;
+        position: absolute; /* prev:absolute */
+        height: 67px;
+        width: 67px;
+        -moz-border-radius:    80px;
+        -webkit-border-radius: 80px;
+        border-radius:         80px;
+        background: yellow;
+        border: 7px double #CCCC00;
+        z-index:4;
+        opacity: 1;
+    }
+
+    #buttons_holder{
+        position: relative;
+    }
+
+    #sparkle{
+        position: relative;
+        z-index:5;
+        margin: 0px;
+        padding: 0px;
+        animation-delay: 0.2s;
+        animation-name:sparkle_anim;
+        animation-timing-function: ease-in-out;
+        opacity:0;
+    } #sparkle::after {
+        position: relative;
+        content: "\2734";
+        color: white;
+        -webkit-filter: drop-shadow(0px 0px 4px rgba(255, 231, 255, 0.89));
+    } @keyframes sparkanim{
+        0%{ opacity:0; transform:scale(1);}
+        50% { opacity:1; transform:scale(3);}
+        100%{ opacity:0; transform:scale(1); }
+    }
+
+    .happybob{
+        animation-name: bob_happy;
+        animation-duration: 1s;
+        animation-iteration-count: 5;
+    }
+
+    @keyframes bob_happy{
+        0% { opacity:1; filter:brightness(1) hue-rotate(0)}
+        50% { opacity:1; filter:brightness(8) hue-rotate(-0.65turn)}
+        100% { opacity:1;  filter:brightness(1) hue-rotate(0)}
+    }
+
+    .flashy{
+        animation-delay: 3s;
+        animation-name: flashy_anim;
+        animation-duration: 8s;
+        animation-iteration-count: 10;
+        animation-timing-function: ease;
+    }
+
+    @keyframes flashy_anim{
+        0%{ filter:brightness(1)}
+        1% { filter:brightness(4)}
+        99% { filter:brightness(4)}
+        100% { filter:brightness(1)}
+    }
+
+    #win, #lose{
+        position: relative;
+        animation-name:status_tween;
+        animation-duration:0.8s;
+        animation-timing-: ease-out;
+        animation-fill-mode:forwards;
+        transform: scale(1, 1);
+        opacity: 1;
+        z-index: 2;
+        pointer-events: none;
+    } #win::before{
+        content:'\1f44d';
+    } @keyframes status_tween{
+        from { opacity:0;}
+        to { opacity:1; }
+    } #lose::before{
+        content:'\1f44e';
+    }
+
+    .outcome_message{
+        animation-name:message_tween;
+        animation-duration:0.8s;
+        animation-timing-: ease-out;
+        animation-fill-mode: forwards;
+        position: relative;
+        z-index:7;
+        font-family: Arial;
+        letter-spacing: -5px;
+        font-weight: bold;
+    } @keyframes message_tween{
+        from { left:-130; opacity:0.2;}
+        to { left:0; opacity:1;}
+    }
+
+    @keyframes fadeIn{
+        from { opacity:0.2;}
+        to { opacity:1;}
+    }
+
+    @font-face{
+        font-family: Impacto;
+        src: url('https://www.wfonts.com/download/data/2014/05/29/impact/impact.ttf');
+    }
+
+    /* -------------------------------------------- Crate ----------------------------------------- */
+    .crate{
+        background:#b58752;
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: -1;
+    }.crate::before{
+        content: '';
+        top: 23px;
+        border: 1px solid #614827;
+        background:#BD9159;
+        width: 62px;
+        height: 11px;
+        left: -3px;
+        position:absolute;
+        transform: rotate(45deg);
+    }.crate::after{
+        content: '';
+        top: 23px;
+        border: 1px solid #614827;
+        background:#BD9159;
+        width: 62px;
+        height: 11px;
+        left: -3px;
+        position:absolute;
+        transform: rotate(-45deg);
+    }
+    .crate-edge-horz{
+        background:#b58752;
+        width: 59px;
+        height: 12px;
+        position: absolute;
+        border: 1px solid #614827;
+        top: 0px;
+        left: 0px;
+        z-index: 5;
+    }.crate-edge-horz::after{
+        content:'';
+        background:#b58752;
+        width: 59px;
+        height: 12px;
+        position: absolute;
+        border: 1px solid #614827;
+        top: 45px;
+        left: -1px;
+        z-index: 5;
+    }
+    .crate-edge-vert{
+        background:#b58752;
+        width: 10px;
+        height: 55px;
+        position: absolute;
+        border: 1px solid #614827;
+        top: 0px;
+        left: 49px;
+        z-index: 5;
+    }.crate-edge-vert::after{
+        content:"";
+        background:#b58752;
+        width: 10px;
+        height: 55px;
+        position: absolute;
+        border: 1px solid #614827;
+        top: 0px;
+        left: -50px;
+        z-index: 5;
+    }
+
+    /* --------------------------------------- Ice-cream Goal --------------------------------------*/
+    .icecream_face{
+        left: 33%;
+        top: 11%;
+        border-radius: 50px;
+        background: #7DFFD2;
+        z-index: 2;
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        animation-name:glow_icecream;
+        animation-iteration-count:infinite;
+        animation-duration: 1.75s;
+        box-shadow: 0px 0px 0px 1px #000;
+    }@keyframes glow_icecream{
+        0%{-webkit-filter: drop-shadow(0px 0px 0px rgba(216, 219, 228, 0.2));}
+        50%{-webkit-filter: drop-shadow(0px 0px 7px rgba(216, 219, 228, 0.8));}
+        100%{-webkit-filter: drop-shadow(0px 0px 0px rgba(216, 219, 228, 0.2));}
+    }
+    .icecream_face::before{
+        content:'\00A0\022CF \00A0 \022CF';
+        font-size: 12px;
+        position: absolute;
+        animation-name:facial_anim;
+        animation-iteration-count:infinite;
+        animation-duration: 1.1s;
+        animation-delay:1s;
+    }@keyframes facial_anim{
+        0%{transform:translate(0, -1);}
+        50%{transform:translate(0, 1.5px);}
+        100%{transform:translate(0, -1);}
+    }
+    .icecream_cone{
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top:30px solid #F6E2AD;
+        top:52px;
+        left:0px;
+        position: relative;
+        z-index:1;
+    }.icecream_cone::after{
+        content: ' ';
+        background: #F6E2AD;
+        position: absolute;
+        bottom: 45px;
+        left: -11px;
+        width: 22px;
+        height: 5px;
+        border-bottom: 1px solid #7e8757;
+    }
+
+
+    /* ------------------------------------------- BOB----------------------------------------------- */
+
+    .bob_outer_appearance{
+        background: #efff21;
+        border: 4px solid black;
+        width: 52px;
+        height: 52px;
+        position: absolute;
+        z-index:1;
+        top:0px;
+        left:0px;
+    }.bob_outer_appearance::after{
+        position:relative;
+        content:'';
+        font-family: "Calibri", Georgia, sans-serif;
+        font-size: 30px;
+        margin-left:auto;
+        margin-right:auto;
+        text-align: center;
+    }.bob_inner_appearance{
+        position:relative;
+        background: #efff21;
+        border: 2px solid black;
+        padding-top: 4px;
+        width: 45px;
+        height: 40px;
+        display: table;
+        margin: auto;
+        margin-top:4%;
+    }.bob_inner_appearance::before{
+        position:relative;
+        content:' \00A0 _ \00A0 \00A0 \00A0 \00A0 _';
+        float:left;
+        animation-name:bobbing_up_and_down;
+        animation-duration:1s;
+        animation-iteration-count: infinite;
+        animation-timing-: ease-out;
+    } .bob_inner_appearance::after{
+        content:'3';
+        position:relative;
+        display: table;
+        margin: auto;
+        padding: 0 5px;
+        font-family: "Calibri", Georgia, sans-serif;
+        font-size: 15px;
+        animation-name:bobbing_up_and_down;
+        animation-duration:1s;
+        animation-iteration-count: infinite;
+        animation-timing-: ease-out;
+    } @keyframes bobbing_up_and_down{
+        0% {top:0px;}
+        50% {top:2.75px;}
+        100% {top:0px;}
+    }
+</style>
+
+</head>
+<body>
+
+    <script>
+        var $ = {id: (elem) => document.getElementById(elem), cn: (elem) => document.getElementsByClassName(elem), tn: (elem) => document.getElementsByTagName(elem), cs: (elem, prop) => {var a = window.getComputedStyle(elem); if (prop !== "") return a.getPropertyValue(prop); else return a;}, ce: (a) => document.createElement(a)}, float = (a)=>parseFloat(a), int = (a)=>parseInt(a), round = (a)=>Math.round(a), round2 = n=>parseFloat(Math.round(n*100)/100), abs = (a)=>Math.abs(a), random = (a)=>Math.random(a), floor = (a)=>Math.floor(a), ceil = (a)=>Math.ceil(a), string = (a)=>toString(a), cl = (a)=>console.log(a), undull = s=>(s==null || s==undefined), roundn = (n,unit=2)=>parseFloat(round(n*(10**unit))/(10**unit)), isAlphabet = a=>((a.match(/[a-z]/g))!==null), isSingleDigit = a=>((a.match(/[0-9]/))!==null);
+
+        var efx = null;
+
+        function drawBorder(_ref, color="blue", line=1, alt=false){
+            if (!alt) _ref.style.border = line+"px solid "+color;
+            else ref.style.boxShadow = "0px 0px 0px "+line+"px "+color;
+        };
+
+        function createComponent(id_label, parent_node, element, classlist, props){
+            var comp = document.createElement(element);
+            comp.setAttribute("id", id_label);
+            if (Array.isArray(classlist)){
+                for (var i = 0; i < classlist.length; i++) comp.classList.add(classlist[i]);
+            } else comp.classList.add(classlist);
+            if (!undull(props)) {
+                comp.innerHTML = props._innerHTML;
+                comp.style.width = props._width;
+                comp.style.height = props._height;
+        		comp.style.zIndex = props._zIndex;
+            }
+            parent_node.appendChild(comp);
+            return comp;
+        }
+
+        window.onerror = (e)=>{
+            console.log(e);
+        }
+
+        function createSpark(type, dim, xy, bgcolor, bordercolor, END_STATE="CLEAR_WHEN_FINISHED", draw_border=false, z_index="null", after_animation_function=null, delay_animation="0s", _centerize=false){
+    		if (undull($.id("spark_efx_cont"))) { //transition_state (changed screens) and thus prev spark_efx_cont reference was removed from $.id("gamecont") (or cleared out from the following command: $.id("gamecont").innerHTML = ""), thus we must recreate a new spark_efx_cont// NOTES: alert("curr==prev, undull(sparkefxcont) unexpected!");
+    			createComponent("spark_efx_cont", $.id("gamecont"), "div");
+    			efx = new sparkEfx(type, dim, xy, bgcolor, bordercolor, delay_animation, _centerize);
+    		} else {
+    			efx.setDimensions(dim);
+    			efx.setPosition(xy);
+    			efx.setBackgroundColor(bgcolor);
+    			efx.setBorder(bordercolor);
+    			efx.setState(type);
+    			efx.setDelayAnimation(delay_animation);
+    		}
+
+        	if (draw_border) drawBorder($.id("spark_efx_cont"));
+        	if (z_index) $.id("spark_efx_cont").style.zIndex = z_index;
+
+        	//vars.efx_footprint = removeLevelDuplicates(vars.efx_footprint);
+        	if (!after_animation_function) {
+        		efx.animate(END_STATE);
+        	} else {
+        		efx.animate(END_STATE, after_animation_function);
+        	}
+        }
+
+        function sparkEfx(_state="EXPLOSION", _wh=[75,75], _xy=[window.innerWidth/2,window.innerHeight/2], _bgcolor="white", _border="1px white solid", _delay="0s", _centerize=false){
+            this.dims = [[[7,7,-12,-12], [8,8,12,12], [8,8,-12,12], [7,7,12,-12], [3,3,0,0], [3,3,0,8], [4,4,8,0], [3,3,-8,0], [4,4,0,-8]]]; //[width,height,left,top
+
+            $.id("spark_efx_cont").style.width = _wh[0]+"px";
+            $.id("spark_efx_cont").style.height = _wh[1]+"px";
+            $.id("spark_efx_cont").style.left = _xy[0]+"px";
+            $.id("spark_efx_cont").style.top = _xy[1]+"px";
+            //$.id("spark_efx_cont").style.margin = "auto";
+            $.id("spark_efx_cont").style.position = "absolute";
+            $.id("spark_efx_cont").classList.add("flex_center");
+
+            this.animate = (_endcondition, after_animation)=>{
+                $.id("spark_efx_cont").innerHTML = this.state;
+        		if (_centerize) $.id("spark_efx_cont").style.left = (int($.cs($.id("spark_efx_cont"), "left")) - int($.cs($.id("spark_efx_cont"), "width"))/2)+"px";
+                $.id("efx").style.width = $.id("spark_efx_cont").style.width;
+                $.id("efx").style.height = $.id("spark_efx_cont").style.height;
+                $.id("efx").style.borderRadius = $.id("spark_efx_cont").style.width;
+        		$.id("efx").style.animationDelay = this.delay_animation;
+                this.end_condition = _endcondition;
+
+        		if (after_animation) this.after_animation = after_animation;
+            }
+
+            $.id("spark_efx_cont").onanimationstart = ()=>{};
+
+            $.id("spark_efx_cont").onanimationend = ()=>{
+                switch(this.end_condition){
+                    case "CLEAR_WHEN_FINISHED":
+        				$.id("spark_efx_cont").style.pointerEvents = "none";
+                        $.id("spark_efx_cont").innerHTML="";
+        				if (!undull(this.after_animation)) this.after_animation();
+                    break;
+        			default:
+        				$.id("spark_efx_cont").style.pointerEvents = "none";
+                        $.id("spark_efx_cont").innerHTML="";
+        			break;
+                }
+
+                if ($.id("spark_efx_cont")){
+        			$.id("gamecont").removeChild($.id("spark_efx_cont"));
+        			efx = null;
+        		}
+            };
+
+            this.generateCircularCoords = (star_size, radius, angle)=>{
+                var RAD = Math.PI / 180;
+                for (var i=0, reps = 360 / angle, s=[]; i < reps; i++) s[i] = [star_size, star_size, round2(radius * Math.cos(i*angle*RAD)), round2(radius * Math.sin(i*angle*RAD))];
+                return s;
+            };
+
+            this.drawStars = (vals, color="white", type1="star_polygon", type2="sparky3")=>{//type1 = ["multistar", "star"], type2=["sparky2", "indy_rotate"]
+                for (var i = 0, s = ""; i < vals.length; i++) s += "<div class='"+type1+" "+type2+"' style='background:"+color+";position:absolute;width:"+vals[i][0]+"px;height:"+vals[i][1]+"px;margin-left:"+vals[i][2]+"px;margin-top:"+vals[i][3]+"px;'></div>";
+                return s;
+            };
+
+            this.drawSparks = (color="white")=>{
+        		for (var i = 0, s = ""; i < 40; i+=2) s += "<div class='diamond' style='background:"+color+";position:absolute;width:7px;height:7px;transform:rotate("+i+"deg);transform-origin:50% 100%'></div>";
+                return s;
+            };
+
+            let qwid = $.id("letterq");
+            qwid = undull(qwid) ? window.innerWidth/10:int( $.cs($.id("letterq"),"width"));
+            this.dims.push(this.generateCircularCoords(qwid/5, Math.min(window.innerWidth, window.innerHeight)/8, 30));
+            this.dims.push(this.generateCircularCoords(qwid/5, Math.min(window.innerWidth, window.innerHeight)/8, 15));
+
+        	this.bgcolor = _bgcolor;
+        	this.border = _border;
+        	this.delay_animation = _delay;
+
+        	this.setBackgroundColor = (newbgcolor)=>{
+        		this.bgcolor = newbgcolor;
+        	}
+
+        	this.setBorder = (newborder)=>{
+        		this.border = newborder;
+        	}
+
+        	this.setDelayAnimation = (delay)=>{
+        		this.delay_animation =  delay;
+        	}
+
+            this.setState = (state="EXPLOSION")=>{
+                let states = "";
+                switch(state){
+                    case "STARS1":
+                        states = "<div id='efx' class='sparky flex_center'>"+this.drawStars(this.dims[0], this.bgcolor, "star_polygon")+"</div>";
+                    break;
+                    case "STARS2":
+                        states = "<div id='efx' class='sparky flex_center'>"+this.drawStars(this.dims[1], this.bgcolor, "star_polygon")+"</div>";
+                    break;
+                    case "STARS3":
+                        states = "<div id='efx' class='sparky flex_center'>"+this.drawStars(this.dims[2], this.bgcolor, "star_polygon")+"</div>";
+                    break;
+                    case "STARSR":
+                        states = "<div id='efx' class='rotation flex_center'>"+this.drawStars(this.dims[1], this.bgcolor, "star_polygon", "indy_rotate")+"</div>";
+                    break;
+                    case "STARS_SPARKLY":
+                        states = "<div id='efx' class='rotation flex_center'>"+this.drawStars(this.dims[1], this.bgcolor, "star_polygon")+"</div>";
+                    break;
+                    case "EXPLOSION":
+                        states = "<div id='efx' class='flex_center explosion bigbang' style='background:"+this.bgcolor+";border:"+this.border+"'></div>";
+                    break;
+                    case "MULTISTARS":
+                        states = "<div id='efx' class='flex_center explosion bigbang multistar' style='background:"+this.bgcolor+";border:"+this.border+"'></div>" ;
+                    break;
+                    case "EXPLOSION_OUTLINE":
+                        states =  "<div id='efx' class='flex_center sparky circ' style='border:"+this.border+"'></div>";
+                    break;
+                    case "SPARKS":
+                        states = "<div id='efx' class='sparky circ flex_center' style='background:"+this.bgcolor+";border:"+this.border+"'>"+this.drawSparks()+"</div>";
+                    break;
+                    default: alert("Invalid state!");
+                }
+
+        		this.state = states;
+                return states;
+            };
+
+        	this.setDimensions = (_wh)=>{
+        		$.id("spark_efx_cont").style.width = _wh[0]+"px";
+        		$.id("spark_efx_cont").style.height = _wh[1]+"px";
+        	}
+
+        	this.setPosition = (_xy)=>{
+        		$.id("spark_efx_cont").style.left = _xy[0]+"px";
+        		$.id("spark_efx_cont").style.top = _xy[1]+"px";
+        	}
+
+            this.state = this.setState(_state);
+            this.getState = ()=>this.state;
+            this.end_condition = "";
+        }
+
+        function createBubble(attr){ // position, dir, dimension, edge_roundness, text, bgcolor
+            let direction = (attr.dir==="left"||attr.dir==="right")?"horizontal":(attr.dir==="up"||attr.dir==="down")?"vertical":"none";
+            if (direction === "none") {
+                alert("unknown direction @"+arguments.callee.name+"");
+                return;
+            }
+
+            var bubblecont = createComponent("bubblecont", $.id("gamecont"), "div");
+            bubblecont.style.animationName = "sp"+direction;
+            bubblecont.style.animationDuration = attr.duration;
+            bubblecont.style.animationTimingFunction = attr.timing;
+            bubblecont.style.animationIterationCount = attr.iteration;
+            bubblecont.style.position = "absolute";
+            bubblecont.style.userSelect = "none";
+            bubblecont.style.zIndex = 5;
+            bubblecont.style.width = bubblecont.style.height = "100%";
+            bubblecont.onclick = ()=>{
+                //$.id("gamecont").removeChild(bubblecont);
+                attr.when_clicked();
+            };
+
+            var bubble = createComponent("bubble", bubblecont, "div", ["flex_center",attr.blink_animate?"animbg":null]);
+            var arrow = createComponent("arrow", bubblecont, "div", attr.blink_animate?"animbg":null);
+
+            bubble.style.position = "absolute";
+            bubble.style.boxSizing = "border-box";
+            bubble.style.left = attr.position.x+"px";
+            bubble.style.top = attr.position.y+"px";
+            bubble.style.width = attr.dimension.width+"px";
+            bubble.style.height = attr.dimension.height+"px";
+            bubble.style.background = "#dffdf7";
+            bubble.style.borderRadius = attr.edge_roundness+"px";
+            bubble.style.color = "darkorange";
+            bubble.style.display = "flex";
+            bubble.style.alignItems = "center";
+            bubble.innerHTML = attr.text;
+            bubble.style.fontFamily = "Garamond, serif";
+            bubble.style.fontSize = "1.8em";
+            bubble.style.padding = "10px";
+            bubble.style.fontWeight = "bolder";
+            bubble.style.wordWrap = "break-word";
+            bubble.style.zIndex = 2;
+            bubble.style.textAlign = "center";
+            bubble.style.textShadow = "0px 0px 1px gray";
+
+            arrow.style.position = "absolute";
+            arrow.style.boxSizing = "border-box";
+            arrow.style.width = attr.arrow_length+"px";
+            arrow.style.height = attr.arrow_length+"px";
+            arrow.style.transformOrigin = "0 0";
+            arrow.style.background = "#dffdf7";
+            arrow.style.zIndex = 1;
+
+            if (direction){
+                switch(attr.dir){
+                    case "left":
+                        arrow.style.left = (attr.position.x-attr.arrow_length/3)+"px";
+                        arrow.style.top = (attr.position.y+attr.dimension.height/2)+"px";
+                        arrow.style.transform = "rotate(-45deg)";
+                    break;
+                    case "right":
+                        arrow.style.left = (attr.position.x+attr.dimension.width+attr.arrow_length/3)+"px";
+                        arrow.style.top = (attr.position.y+attr.dimension.height/2)+"px";
+                        arrow.style.transform = "rotate(-225deg)";
+                    break;
+                    case "up":
+                        arrow.style.left = (attr.position.x+attr.dimension.width/2)+"px";
+                        arrow.style.top = (attr.position.y-attr.arrow_length/3)+"px";
+                        arrow.style.transform = "rotate(45deg)";
+                    break;
+                    case "down":
+                        arrow.style.left = (attr.position.x+attr.dimension.width/2)+"px";
+                        arrow.style.top = (attr.position.y+attr.dimension.height/2)+"px";
+                        arrow.style.transform = "rotate(45deg)";
+                    break;
+                }
+            }
+
+            return bubblecont;
+        }
+
+        class iceCreamLove {
+            constructor(){
+                this.space = [];
+                this.elapsed_hud_width = 0;
+                this.keepDrawing = true;
+                this.timeticks = 0;
+                this.FRAMES = 10;
+                this.bob_pos = -9999;
+                this.prev_bob_pos = 0;
+                this.goal = 0;
+                this.gameover = null;
+                this.w = window.innerWidth;
+                this.h = window.innerHeight;
+                this.properties = {horizontal_blocks:null, vertical_blocks:null, full_width:null, full_height:null};
+                this.MOVE = {LEFT:1, CENTER:2, RIGHT:3};
+                this.render = null;
+                this.curr_pos = 0;
+                this.createblock = true;
+                this.medal_types = {"gold":["FFFF00", "9a9a00"], "silver":["E6E8FA", "CFD0E1"], "bronze":["965A38", "875132"], "none":["0f1f1f", "000000"]};
+                this.simpleMenu();
+            }
+
+            simpleMenu(){
+
+                if (!undull($.id("gamecont"))) document.body.removeChild($.id("gamecont"));
+
+                let gamecont = createComponent("gamecont", document.body, "div", ["overflow_hidden"]);
+                let mainmenucont = createComponent("mainmenucont", gamecont, "div", ["flex_center", "full_cont", "abs", "gradientanim", "overflow_hidden"]);
+                mainmenucont.style.transformOrigin = "center";
+                mainmenucont.style.flexDirection = "column";
+                mainmenucont.style.background = "radial-gradient(circle at center center, rgb(6, 242, 198),rgb(12, 102, 197))";
+
+                let exit_cont = createComponent("exit_cont", mainmenucont, "div", ["rel"]);
+                exit_cont.style.width = "100%";
+                exit_cont.style.height = "10%";
+                exit_cont.style.display = "flex";
+                exit_cont.style.alignItems = "end";
+                exit_cont.style.justifyContent = "flex-end";
+
+                let exit_btn = createComponent("exit_btn", exit_cont, "div", ["flex_center", "rel", "orange_gradient"]);
+                exit_btn.innerHTML = "X";
+                exit_btn.style.width = "10%";
+                exit_btn.style.height = "80%";
+                exit_btn.style.margin = "3px";
+                exit_btn.onclick = () =>{
+                    //exit button
+                }
+
+                let mainmenu = createComponent("mainmenu", mainmenucont, "div", ["flex_center", "rel"]);
+                mainmenu.style.width = "65%";
+                mainmenu.style.height = "90%";
+                mainmenu.style.flexDirection = "column";
+
+                let title_cont = createComponent("title_cont", mainmenu, "div", ["flex_center", "rel"]);
+                title_cont.style.width = "100%";
+                title_cont.style.height = "40%";
+
+                let mmtitle = createComponent("mmtitle", title_cont, "div", ["flex_center", "full_cont", "gradient-text"]);
+                mmtitle.innerHTML = "Ice Cream Love!<br>(ver 0.25)";
+                mmtitle.style.textAlign = "center";
+                mmtitle.style.fontFamily = "Calibri";
+                mmtitle.style.fontSize = "3.5em";
+                mmtitle.style.fontWeight = "bolder";
+                //mmtitle.style.color = "rgba(255, 127, 0, 0.6)";
+                mmtitle.style.textShadow = "1px 2px 2px rgba(255,5,255,0.3), 0px 2px 2px rgba(0,255,0,0.1)";
+                //mmtitle.style.textShadow = "1px 1px 0px darkorange, 1px 3px 2px rgba(0,0,0,0.4), 0px 0px 2px #e8af48, 1px 1px 2px black";
+
+                let play_game_cont = createComponent("play_game_cont", mainmenu, "div", ["flex_center", "rel"]);
+                play_game_cont.style.width = "85%";
+                play_game_cont.style.height = "20%";
+
+                let play_game = createComponent("play_game", play_game_cont, "div", ["flex_center", "full_cont", "orange_gradient"]);
+                play_game.innerHTML = "Play!";
+            }
+
+            beginGame(){
+                this.createHUDElements();
+                this.createBodyInitialState();
+                this.setInitialValues();
+                this.createBlocksAndSetProperties();
+                this.initializeWorldBlocks();
+                this.initiateBob();
+                this.createGoal();
+                this.render = window.requestAnimationFrame(this.draw);
+                $.id("hud").style.animationPlayState = "running";
+            }
+
+            createBodyInitialState(){
+                $.id("gamecont").innerHTML += "<div id='hud'></div><table id='blockspaces' class='gamebackground' style='margin-left:auto;margin-right:auto'></table>";
+                $.id("gamecont").style.backgroundColor = "linear-gradient(90deg, rgb(33,33,33) 0%,transparent 59%),repeating-linear-gradient(45deg, rgba(168, 168, 168,0.1) 0px, rgba(168, 168, 168,0.1) 1px,transparent 1px, transparent 13px),repeating-linear-gradient(135deg, rgba(168, 168, 168,0.1) 0px, rgba(168, 168, 168,0.1) 1px,transparent 1px, transparent 13px),linear-gradient(90deg, rgb(33,33,33),rgb(33,33,33));";
+
+                /*
+                http://www.spriteland.com/images/ancient-city-in-the-desert-background.png
+                http://www.spriteland.com/images/ruined-city-background.jpg
+                http://www.spriteland.com/sprites/downloads/dark-mountain-vector-background_SVG.svg
+                */
+                $.cn("gamebackground")[0].style.backgroundImage = "url('http://www.spriteland.com/images/ruined-city-background.jpg')";
+            }
+
+            setInitialValues(){
+                this.keepDrawing = true;
+                //this.elapsed_hud_width = parseInt($.cs($.id("hud"), "right"));
+            }
+
+            createHUDElements(){
+                var hud_button_container = createComponent("hud_button_container", $.id("gamecont"), "div");
+                var hud_button_menu = createComponent("hud_button_menu", hud_button_container, "div", ["hud_button_template"]);
+                var hud_button_crate = createComponent("hud_button_crate", hud_button_container, "div", ["hud_button_template"]);
+                var hud_button_restart = createComponent("hud_button_restart", hud_button_container, "div", ["hud_button_template"]);
+                var hud_button_pause = createComponent("hud_button_pause", hud_button_container, "div", ["hud_button_template"]);
+                var ui_menu = createComponent("ui_menu", hud_button_menu, "div", ["hud_button_menu", "fadeInAnimation"]);
+                var ui_crate = createComponent("ui_crate", hud_button_crate, "div", ["hud_button_crate_create", "fadeInAnimation"]);
+                var ui_restart = createComponent("ui_restart", hud_button_restart, "div", ["hud_button_restart", "fadeInAnimation"]);
+                var ui_pause = createComponent("ui_pause", hud_button_pause, "div", ["hud_button_pause", "fadeInAnimation"]);
+            }
+
+            createBlocksAndSetProperties(block_length = 60, gap_length = 1){
+                let height_baggage = this.isCompatible("Win") ? 17 : 0;
+                let hud_height = parseInt($.cs($.id("hud"), ("height")));
+                let horizontal_blocks = floor(this.w / block_length);
+                let vertical_blocks = floor((this.h - hud_height - height_baggage) / block_length);
+
+                let full_width = (block_length * horizontal_blocks) + (horizontal_blocks * gap_length) + gap_length;
+                let full_height = (block_length * vertical_blocks) + (vertical_blocks * gap_length) + gap_length;
+
+                this.properties.horizontal_blocks = horizontal_blocks;
+                this.properties.vertical_blocks = vertical_blocks;
+                this.properties.full_width = full_width;
+                this.properties.full_height = full_height;
+
+                let s = "";
+                for (let y = 0; y < vertical_blocks; y++){
+                    s += "<tr>";
+                    for (let x = 0; x < horizontal_blocks; x++) s += "<td id='block"+(x+y*horizontal_blocks)+"'></td>";
+                    s += "</tr>";
+                }
+
+                $.id("blockspaces").innerHTML = s;
+            }
+
+            draw(){
+                icl.timeticks = icl.timeticks + 1;
+                if (!undull($.id("hud"))) icl.elapsed_hud_width = parseInt($.cs($.id("hud"), "right"));
+
+                if (icl.timeticks % icl.FRAMES === 0) {
+                    icl.curr_pos = icl.moveBob();
+                    icl.drawBob(icl.curr_pos);
+                    if (icl.deservesToWin(icl.curr_pos)) {
+                        icl.keepDrawing = false;
+                        //$.id("gamecont").style.zoom='300%';
+                        let arrow_length = 70;
+                        let icon = $.id("bobcharacter").getBoundingClientRect();
+                        let bubble = createBubble({position:{x:$.id("bobcharacter").getBoundingClientRect().left-int($.cs($.id("bobcharacter"), "width"))/2,y:$.id("bobcharacter").getBoundingClientRect().top-int($.cs($.id("bobcharacter"), "height"))*2.5-arrow_length}, dir:'down', dimension:{width:int($.cs($.id("bobcharacter"), "width"))*2.5, height:int($.cs($.id("bobcharacter"), "height"))*2.5}, edge_roundness:10, text:"Yum!!", bgcolor:"rgba(255,255,255,1)", arrow_length:arrow_length, translate_animate:true, blink_animate:true, iteration:"infinite", duration:"1s", timing:"ease-in-out", when_clicked:()=>{ }});
+                        bubble.style.left = bubble.style.top = '0px';
+
+        				createSpark("EXPLOSION_OUTLINE", [int($.cs($.id("bobcharacter"), "width"))*1.4, int($.cs($.id("bobcharacter"), "width"))*1.4], [$.id("bobcharacter").getBoundingClientRect().left, $.id("bobcharacter").getBoundingClientRect().top+int($.cs($.id("bobcharacter"), "height"))/2-int($.cs($.id("bobcharacter"), "width"))/2], "white", "1px white solid", "CLEAR_WHEN_FINISHED", false);
+
+                        $.id("bobcharacter").classList.add("happybob");
+
+                        let sheet = window.document.styleSheets[0];
+                        sheet.insertRule(".bob_inner_appearance::before { content: ' \\00A0 \\00A0 > \\00A0 <' }", sheet.cssRules.length);
+                        sheet.insertRule(".bob_inner_appearance::after { content: '\\00A0 \\035D' }", sheet.cssRules.length);
+
+                        setTimeout(()=>{icl.collectStatsAndInvokeScoreScreen(1);}, 3000);
+                    }
+                    else if (icl.deservesToLose(icl.curr_pos)) { icl.keepDrawing = false; icl.collectStatsAndInvokeScoreScreen(0);}
+                }
+
+                if (icl.keepDrawing) {
+                    if (!undull($.id("hud"))) $.id("hud").style.animationPlayState = "running";
+                    window.requestAnimationFrame(icl.draw);
+                } else {
+                    if (!undull($.id("hud"))) $.id("hud").style.animationPlayState = "paused";
+                }
+
+            }
+
+            initiateBob(){
+                let sheet = window.document.styleSheets[0];
+                sheet.insertRule(".bob_inner_appearance::before { content: ' \\00A0 _ \\00A0 \\00A0 \\00A0 \\00A0 _' }", sheet.cssRules.length);
+                sheet.insertRule(".bob_inner_appearance::after { content: '3' }", sheet.cssRules.length);
+                this.placeBobAtPos((this.properties.horizontal_blocks * this.properties.vertical_blocks) - this.properties.horizontal_blocks);
+            }
+
+            placeBobAtPos(num){
+                this.bob_pos = num;
+            }
+
+            initializeWorldBlocks(){
+                for(var i = 0; i < this.properties.horizontal_blocks * this.properties.vertical_blocks; i++) this.space[i] = 0;
+            }
+
+            resetGame(vars){
+                window.cancelAnimationFrame(this.render);
+                var old_goal = this.goal;
+                this.stopAndClearGame();
+                this.beginGame();
+                $.id("block"+this.goal).innerHTML = "";
+                this.createGoal(old_goal);
+            }
+
+            nextGame(vars){
+                window.cancelAnimationFrame(this.render);
+                this.stopAndClearGame();
+                this.beginGame();
+            }
+
+            mainMenu(vars){
+            }
+
+            pauseGame(){
+
+                let pause_screen = createComponent("pause_screen", $.id("gamecont"), "div", ["flex_center", "full_cont", "abs", "tl"]);
+                pause_screen.style.backgroundImage = "radial-gradient(#FAA300, #ED7E00)";
+                pause_screen.style.zIndex = 2;
+                pause_screen.style.flexDirection = "column";
+                pause_screen.style.color = "white";
+                pause_screen.style.fontSize = "3em";
+                pause_screen.style.fontWeight = "bolder";
+
+                icl.keepDrawing = false;
+
+
+                let pause_text = createComponent("pause_text", pause_screen, "div", ["flex_center", "rel"]);
+                pause_text.style.width = "100%";
+                pause_text.style.height = "20%";
+                pause_text.innerHTML = "Paused"
+
+                let resume_game_cont = createComponent("resume_game_cont", pause_screen, "div", ["flex_center", "rel"]);
+                resume_game_cont.style.width = "100%";
+                resume_game_cont.style.height = "10%";
+
+                let resume_game = createComponent("resume_game", resume_game_cont, "div", ["flex_center", "full_cont", "orange_gradient"]);
+                resume_game.innerHTML = "Resume";
+                resume_game.style.fontSize = "0.6em";
+                resume_game.style.width = "35%";
+                resume_game.style.height = "90%";
+
+                resume_game_cont.onclick = ()=>{
+                    $.id("gamecont").removeChild(pause_screen);
+                    this.keepDrawing = true;
+                    this.render = window.requestAnimationFrame(this.draw);
+                }
+
+                let main_menu_cont = createComponent("main_menu_cont", pause_screen, "div", ["flex_center", "rel"]);
+                main_menu_cont.style.width = "100%";
+                main_menu_cont.style.height = "10%";
+
+                let gomainmenu = createComponent("gomainmenu", main_menu_cont, "div", ["flex_center", "full_cont", "orange_gradient"]);
+                gomainmenu.innerHTML = "mainmenu";
+                gomainmenu.style.fontSize = "0.6em";
+                gomainmenu.style.width = "35%";
+                gomainmenu.style.height = "90%";
+
+                main_menu_cont.onclick = ()=>{
+                    this.stopAndClearGame();
+                    $.id("gamecont").innerHTML = "";
+                    this.simpleMenu();
+                }
+
+            }
+
+            stopAndClearGame(){
+                this.space = [], this.curr_pos=null, this.bob_pos = null, this.prev_bob_pos = 0, this.goal = null, this.properties = {horizontal_blocks:null, vertical_blocks:null, full_width:null, full_height:null}, icl.timeticks = 0, $.id("gamecont").innerHTML = "", icl.elapsed_hud_width = 0;
+            }
+
+            blockClick(num){
+                if (this.createblock) this.createBlock(num);
+                //else this.deleteBlock(num);
+            }
+
+            moveBob(){
+                this.prev_bob_pos = this.bob_pos;
+                this.next_move = -1;
+                while((this.next_move=~~((Math.random()*3))+1) === this.prev_bob_pos);
+                switch(this.next_move){
+                    case this.MOVE.CENTER: break;
+
+                    case this.MOVE.LEFT:
+                        if (this.spot(this.bob_pos, "isLeftSpotFree")){
+                            if (this.spot(this.bob_pos, "isOnGround") || (!this.spot(this.bob_pos, "isOnGround") && (!this.spot(this.bob_pos, "isLeftDownSpotFree")))){
+                                if ((this.spot(this.bob_pos, "isAtLeftEdge") && this.spot(this.bob_pos, "isOnGround") && this.spot(this.bob_pos, "isFarRightSpotFree"))){ //When at left edge of screen, jump to the other side of the screen
+                                    this.bob_pos = this.bob_pos + this.properties.horizontal_blocks - 1;
+                                }
+                                else this.bob_pos -= 1;
+
+                            }else{ //
+                                if (!this.spot(this.bob_pos, "isOnGround") && this.spot(this.bob_pos, "isLeftDownSpotFree")){// move downleft
+                                    if (this.spot(this.bob_pos + this.properties.horizontal_blocks - 1, "safeToJumpDown")){
+                                        this.bob_pos = this.bob_pos + this.properties.horizontal_blocks - 1;
+                                    }
+                                }
+                            }
+                        }else if (!this.spot(this.bob_pos, "isLeftSpotFree") && this.spot(this.bob_pos, "isLeftUpSpotFree") && !this.spot(this.bob_pos, "isAtLeftEdge")){ // move upleft
+                            this.bob_pos = this.bob_pos - (this.properties.horizontal_blocks + 1);
+                        }
+                    break;
+
+                    case this.MOVE.RIGHT:
+                        if (this.spot(this.bob_pos, "isRightSpotFree")){
+                            if (this.spot(this.bob_pos, "isOnGround") || (!this.spot(this.bob_pos, "isOnGround") && (!this.spot(this.bob_pos, "isRightDownSpotFree")))){
+                                this.bob_pos += 1;
+                            }else{
+                                if (!this.spot(this.bob_pos, "isOnGround") && this.spot(this.bob_pos, "isRightDownSpotFree")){
+                                    if (this.spot(this.bob_pos + this.properties.horizontal_blocks + 1, "safeToJumpDown")){
+                                        this.bob_pos = this.bob_pos + this.properties.horizontal_blocks + 1;
+                                    }
+                                }
+                            }
+                        }else if (!this.spot(this.bob_pos, "isRightSpotFree") && this.spot(this.bob_pos, "isRightUpSpotFree")){ // move upright
+                            this.bob_pos = this.bob_pos - (this.properties.horizontal_blocks - 1);
+                        }
+                    break;
+
+                    default: alert(arguments.callee.name+" error!");
+                }
+
+                return this.bob_pos;
+
+            }
+
+            drawBob(pos){
+                if (undull($.id("block"+pos)) || undull($.id("block"+this.prev_bob_pos))) {
+                    return;
+                }
+
+                if(!this.spot(pos, "isSpotFree")) {
+                    this.paintCrate(pos);
+                    this.paintCrate(this.prev_bob_pos);
+                    return;
+                }
+
+                if(this.space[this.prev_bob_pos] !== 1) $.id("block"+this.prev_bob_pos).innerHTML = ""; // clear previous bob graphics onscreen
+
+                $.id("block"+pos).innerHTML = "<span id='bobcharacter' class='bob_outer_appearance'><span class='bob_inner_appearance'></span></span>";
+            }
+
+            paintCrate(pos){
+                if (undull($.id("block"+pos))) return;
+
+                $.id("block"+pos).innerHTML = "<div class='crate'><div class='crate-edge-vert'></div><div class='crate-edge-horz'></div></div>";
+            }
+
+            repaintAllCrates(){
+                for (let i = 0; i < this.properties.horizontal_blocks * this.properties.vertical_blocks; i++) if (this.space[i] === 1) this.paintCrate(i);
+            }
+
+            spot(pos, action){
+                switch(action){
+                    case "isSpotFree":
+                        return (this.space[pos] === 0);
+                    break;
+
+                    case "isFarRightSpotFree":
+                        return ((this.space[pos - (pos % this.properties.horizontal_blocks) + this.properties.horizontal_blocks - 1]) === 0);
+                    break;
+
+                    case "isFarLeftSpotFree":
+                        return ((this.space[pos - (pos % this.properties.horizontal_blocks)]) === 0);
+                    break;
+
+                    case "isAtLeftEdge":
+                        return (pos % this.properties.horizontal_blocks === 0);
+                    break;
+
+                    case "isAtRightEdge":
+                        return ((pos % this.properties.horizontal_blocks) === (this.properties.horizontal_blocks - 1));
+                    break;
+
+                    case "isLeftSpotFree":
+                        return (this.space[pos - 1] === 0);
+                    break;
+
+                    case "isRightSpotFree":
+                        return (this.space[pos + 1] === 0);
+                    break;
+
+                    case "isLeftUpSpotFree":
+                        return (this.space[pos - (this.properties.horizontal_blocks + 1)] === 0);
+                    break;
+
+                    case "isLeftDownSpotFree":
+                        return (this.space[pos + this.properties.horizontal_blocks - 1] === 0);
+                    break;
+
+                    case "isRightUpSpotFree":
+                        return (this.space[pos - (this.properties.horizontal_blocks - 1)] === 0);
+                    break;
+
+                    case "isRightDownSpotFree":
+                        return (this.space[pos + this.properties.horizontal_blocks + 1] === 0);
+                    break;
+
+                    case "safeToJumpDown":
+                        if (pos > this.properties.horizontal_blocks * this.properties.vertical_blocks - 1) return true;
+                        return (((this.space[pos] === 0) && (this.space[pos + this.properties.horizontal_blocks] === 1)) || (this.spot(pos, "isOnGround")));
+                    break;
+
+                    case "isOnGround":
+                        let total_blocks = this.properties.vertical_blocks * this.properties.horizontal_blocks;
+                        return ((pos > total_blocks - this.properties.horizontal_blocks - 1) && (pos < total_blocks));
+                    break;
+
+                    default: alert("unknown spot!"); break;
+                }
+            }
+
+            deservesToWin(pos){
+                return (pos === this.goal);
+            }
+
+            deservesToLose(pos){ // You lose in 4 ways: destroyed ice cream, stuck between crates, killed by enemy, killed by pitfalls.
+
+                // 1. destroyed ice-cream goal
+                for (let i = 0; i < this.properties.horizontal_blocks * this.properties.vertical_blocks; i++){
+                    if ((this.space[i] === 1) && (i === this.goal)) {
+                        icl.lose_reason = "noicecream";
+                        return true;
+                    }
+                }
+
+                // 2. Stuck between crates
+                let stuck_case_1 = ((!this.spot(pos, "isLeftSpotFree")) && (!this.spot(pos, "isRightSpotFree")) && (!this.spot(pos, "isLeftUpSpotFree")) && (!this.spot(pos, "isRightUpSpotFree")));
+                let stuck_case_2 = (this.spot(pos, "isAtLeftEdge") && (!this.spot(pos, "isRightSpotFree")) && (!this.spot(pos, "isRightUpSpotFree")) && (!this.spot(pos, "isFarRightSpotFree")) && (!this.spot(pos, "isFarRightSpotFree")));
+                let stuck_case_3 = (this.spot(pos, "isAtRightEdge") && (!this.spot(pos, "isLeftSpotFree")) && (!this.spot(pos, "isLeftUpSpotFree")) && (!this.spot(pos, "isFarLeftSpotFree")) && (!this.spot(pos, "isFarLeftSpotFree"))); // case 2, 3 are related
+                let stuck_case_4 = (this.spot(pos, "isAtRightEdge") && (!this.spot(pos, "isLeftSpotFree")) && (!this.spot(pos, "isLeftUpSpotFree")) && ((pos + 2 * this.properties.horizontal_blocks) < this.properties.vertical_blocks * this.properties.horizontal_blocks) && (this.spot(pos, "isFarLeftSpotFree")));
+                let stuck_case_5 = (this.spot(pos, "isAtLeftEdge") && (!this.spot(pos, "isRightSpotFree")) && (!this.spot(pos, "isRightUpSpotFree")) && ((pos + 2 * this.properties.horizontal_blocks) < this.properties.vertical_blocks * this.properties.horizontal_blocks) && (this.spot(pos, "isFarRightSpotFree"))); // case 4, 5 are related
+
+                if (stuck_case_1 || stuck_case_2 || stuck_case_3 || stuck_case_4 || stuck_case_5) icl.lose_reason = "stuck";
+
+                return (stuck_case_1 || stuck_case_2 || stuck_case_3 || stuck_case_4 || stuck_case_5);
+                // Note: I realized you can conflate case 4 & case 5 and you must add the case where bob is far right (off the ground) and the far left (from his height level) has a crate one filled until one height higher (than bob). You must add 2 more cases.
+
+                // 3. killed by enemy
+                // 4. killed by platform pitfalls (i.e. fires, poison, knives, spikes)
+            }
+
+            collectStatsAndInvokeScoreScreen(condition){
+                if ((condition !== 0) && (condition !== 1)) {alert(arguments.callee.name+"() error!")};
+
+                let stats = {};
+                let custom_props = {};
+
+                if (condition === 1){
+                    let win_percent = round(icl.elapsed_hud_width / this.w * 100);
+                    if ((win_percent <= 100) && (win_percent > 70)) stats.medaltype = "gold";
+                    else if ((win_percent <= 70) && (win_percent > 50)) stats.medaltype = "silver";
+                    else if ((win_percent <= 50) && (win_percent > 20)) stats.medaltype = "bronze";
+                    else if ((win_percent <= 20) && (win_percent >= 0)) stats.medaltype = "none";
+                    else cl(arguments.callee.name+"() error! " + win_percent);
+
+                    stats.percentage = win_percent;
+                    stats.enemies_present = 0;
+                    stats.enemies_destroyed = 0;
+                    stats.blocks_created = 0; // doable
+                    stats.blocks_destroyed = 0;
+                    stats.powerups_collected = 0;
+                    stats.powerups_saved = 0;
+                    stats.powerups_used = 0;
+                    stats.timeofday = "night";
+                    stats.restarts = 0; //doable
+                    stats.level = 0; // level difficulty
+                    stats.trapped_deaths = 0;
+                    stats.destroyed_prize = 0;
+                    stats.killed = 0;
+                } else {
+                    stats.medaltype = "failure";
+                }
+
+                stats.duration = icl.timeticks;
+
+                this.stopAndClearGame();
+                this.invokeScoreScreen(condition, stats, custom_props);
+            }
+
+            invokeScoreScreen(_results, stats, custom){
+                let result_msg = (_results === 1) ? "You Win!" : (_results === 0) ? "You Lose!" : arguments.callee.name + "() error!";
+                let letter_grade = (stats.medaltype === "gold") ? "A" : (stats.medaltype === "silver") ? "B" : (stats.medaltype === "bronze") ? "C" : (stats.medaltype === "none") ? "D" : "F";
+
+                function getMessage(){
+                    if (letter_grade === "F") {
+                        if (icl.lose_reason === "stuck") return "Stuck between crates -_- Try Again!";
+                        else if (icl.lose_reason === "noicecream") return "Ice Cream destroyed! Try Again!";
+                        else return "Try Again!";
+                    } else if (letter_grade === "D") return "You can do better!";
+                    else if (letter_grade === "C") return "Not bad but go higher!";
+                    else if (letter_grade === "B") return "Great but go for gold!";
+                    else return "Great! You earned gold!";
+                }
+
+                let verdict_screen = createComponent("verdict_screen", $.id("gamecont"), "div", ["flex_center", "full_cont", "overflow_hidden"]);
+                let verdict_cont = createComponent("verdict_cont", verdict_screen, "div", ["rel", "flex_center", "full_cont"]);
+                verdict_cont.style.flexDirection = "column";
+
+                let endsign = null;
+                if ((letter_grade === "A") || (letter_grade === "B")) endsign = createComponent("win", verdict_cont, "div");
+                else if (letter_grade === "F") endsign = createComponent("lose", verdict_cont, "div");
+
+                let msg1 = createComponent("msg1", verdict_cont, "div", ["outcome_message"]);
+                msg1.innerHTML = result_msg;
+
+                let msg2 = createComponent("msg2", verdict_cont, "div", ["outcome_message"]);
+                msg2.innerHTML = "Grade "+letter_grade;
+
+                let msg3 = createComponent("msg3", verdict_cont, "div", ["outcome_message"]);
+                msg3.innerHTML = getMessage();
+                msg3.style.color = "white";
+                msg3.style.letterSpacing = "0px";
+                msg3.style.fontFamily = "Garamond";
+                msg3.style.textShadow = "0px 0px 1px black,0px 0px 2px black,0px 0px 2px black,0px 0px 1px black";
+                msg3.style.fontSize = "0.3em";
+                msg3.style.marginBottom = "10px";
+
+                if (letter_grade === "A"){
+                    let more_dev = createComponent("more_dev", verdict_cont, "div", ["outcome_message", "flex_center", "flashy"]);
+                    drawBorder(more_dev, "gray", 2);
+                    more_dev.style.background = "#c0c0c0";
+                    more_dev.style.letterSpacing = "0px";
+                    more_dev.style.padding = "5px";
+                    more_dev.style.fontFamily = "Tahoma";
+                    more_dev.style.fontSize = "0.4em";
+                    more_dev.style.marginBottom = "10px";
+                    more_dev.style.borderRadius = "10px";
+                    more_dev.innerHTML = "Is there more?";
+                    more_dev.onclick = ()=>{
+                        let gameplans = createComponent("gameplans", $.id("gamecont"), "div", ["full_cont", "flex_center"]);
+                        gameplans.style.background = "#3AA8C1";
+                        gameplans.style.position = "absolute";
+                        gameplans.style.zIndex = "10";
+                        gameplans.innerHTML = "<span style='margin: 15px;display:flex;align-items:center;justify-content:center;flex-direction: column;'><p style=' text-align:center; font-weight: bold; color: gold; text-shadow:1px 0px #3497ad, -1px 0px #287586; font-size:1.4em; font-family:Calibri'><font color='orange' style='text-decoration:underline'>Remember, this game is still in early-alpha phase!</font><br> It's still very early in development.<br>Planned Gameplay Features<br><br></p><p style='text-align:left; flex-direction: column; font-weight: bold; color: white; text-shadow:1px 0px #3497ad, -1px 0px #287586; font-size:1.4em; font-family:Calibri'>1. Varying background environments<br>2. Complex pre-made level terrain matching overall environment.<br>3. Different crates selections with different powerups/abilities.<br>4. Enemies - Smart and dumb <br>5. Level transitions to expand overall levels.<br>6. Multiple goals and sub-goals.<br>7. Major boss enemy at the end of levels.<br>8. Puzzle Solving quests<br>9. Environmental traps and pitfalls.<br>10. Powerup pickups that will help control character/reduce character's erratic movement.<br>11. Mini-story with cutscenes (maybe)<br><br><font color='lightgreen'>Click anywhere to exit.</font><p></span>";
+
+                        gameplans.onclick = ()=>{
+                            $.id("gamecont").removeChild(gameplans);
+                        }
+                    }
+                }
+
+                let buttons_holder = createComponent("buttons_holder", verdict_cont, "div", "flex_center");
+                let btn_restart = createComponent("btn_restart", buttons_holder, "button");
+                let btn_next = createComponent("btn_next", buttons_holder, "button");
+                let btn_main_menu = createComponent("btn_main_menu", buttons_holder, "button");
+                let restart_level = createComponent("restart_level", btn_restart, "div");
+                let next_level = createComponent("next_level", btn_next, "div");
+                let main_menu = createComponent("main_menu", btn_main_menu, "div");
+
+                btn_restart.onclick = ()=>{
+                    $.id("gamecont").removeChild($.id("verdict_screen"));
+                    this.resetGame();
+                }
+
+                btn_next.onclick = ()=>{
+                    $.id("gamecont").removeChild($.id("verdict_screen"));
+                    this.nextGame();
+                }
+
+                if (_results === 0){
+                    msg1.style.textShadow =  msg2.style.textShadow = "2px 2px #333333";
+                    msg1.style.color = msg2.style.color = "red";
+                    verdict_screen.style.backgroundColor = "#DB7082";
+                } else if (_results === 1){
+                    let medal_outline = this.medal_types[stats.medaltype][0];
+                    let medal_inner = this.medal_types[stats.medaltype][1];
+                    let sheet = window.document.styleSheets[0];
+                    sheet.insertRule('#medal { border-color: #'+medal_inner+' }', sheet.cssRules.length);
+                    sheet.insertRule('#medal::after { border-color: #'+medal_inner+' }', sheet.cssRules.length);
+                    sheet.insertRule('#medal::after { background: #'+medal_outline+' }', sheet.cssRules.length);
+
+                    let medal = createComponent("medal", verdict_cont, "div");
+
+                    if (stats.medaltype === "gold"){
+                        let sparkle_cont = createComponent("sparkle_cont", verdict_cont, "div");
+                        sparkle_cont.style.position = "absolute";
+                        sparkle_cont.style.width = "100%";
+                        sparkle_cont.style.height = "100%";
+
+                        let sparkle = createComponent("sparkle", sparkle_cont, "div");
+                        sparkle.style.animationName = "sparkanim";
+                        sparkle.style.animationDuration = "1.2s";
+                        sparkle.style.transformOrigin = "center";
+                        //sparkle.style.position = "absolute";
+                        sparkle_cont.style.left = "0px"//($.id("medal").getBoundingClientRect().left-int($.cs($.id("medal"), "width")))+"px";
+                        sparkle_cont.style.top = ($.id("medal").getBoundingClientRect().top-10)+"px";
+                    }
+
+                    msg1.style.textShadow =  msg2.style.textShadow = "2px 2px #005500";
+                    msg1.style.color = msg2.style.color = "forestgreen";
+
+                    verdict_screen.style.backgroundColor = "#B6DB70";
+                }
+            }
+
+            createGoal(old_goal){
+                if (undull(old_goal)){
+                    let part_slices = 3, slices = 4;
+                    let area = this.properties.horizontal_blocks * this.properties.vertical_blocks;
+                    let poss_comb = ~~(area / slices) - this.properties.horizontal_blocks;
+                    this.goal = ~~(Math.random() * poss_comb) + (~~((part_slices/slices) * area));
+                } else this.goal = old_goal;
+
+                $.id("block"+this.goal).innerHTML =  "<span class='icecream_face'><span class='icecream_cone'></span></span>";
+                return this.goal;
+            }
+
+            playBlockCreationAnimation(num){
+                if (undull($.id("block"+num))) return;
+                $.id("block"+num).innerHTML = "<div id='block_animation'></div>";
+                $.id("block_animation").addEventListener("animationend", ()=>{this.repaintAllCrates()});
+            }
+
+            createBlock(num){
+                let block_number = this.getDroppedBlockLowestUnoccupiedHeightLevel(num);
+                let block_position = (num % this.properties.horizontal_blocks) + this.properties.horizontal_blocks * block_number;
+                this.playBlockCreationAnimation(block_position);
+                this.space[block_position] = 1;
+            }
+
+            deleteBlock(num){
+                let block_number = this.getDroppedBlockLowestUnoccupiedHeightLevel(num);
+                let block_position = (num % this.properties.horizontal_blocks) + this.properties.horizontal_blocks * block_number;
+                //playBlockCreationAnimation(block_position);
+                this.space[block_position] = 0;
+            }
+
+            destroyBlock(num){
+                let block_number = this.getDroppedBlockLowestUnoccupiedHeightLevel(num);
+                let block_position = (num % this.properties.horizontal_blocks) + this.properties.horizontal_blocks * block_number;
+                this.playBlockCreationAnimation(block_position);
+                this.space[block_position] = 0;
+            }
+
+            getDroppedBlockLowestUnoccupiedHeightLevel(num){
+                let normalized_clicked_spot = num % this.properties.horizontal_blocks;
+                let has_spot_been_found = false;
+                let current_height_level = 0;
+                let current_spot = 0;
+                let SPOT = {UNOCCUPIED:0, OCCUPIED:1};
+
+                while(!has_spot_been_found) {
+                    current_spot = this.space[normalized_clicked_spot + this.properties.horizontal_blocks * current_height_level];
+
+                    if (current_spot === SPOT.UNOCCUPIED) {
+                        current_height_level += 1;
+                    }
+
+                    else if (current_spot === SPOT.OCCUPIED){
+                        current_height_level -= 1;
+                        has_spot_been_found = true;
+                    }
+
+                    if (current_height_level > this.properties.vertical_blocks - 1) { // lower bound
+                        current_height_level = this.properties.vertical_blocks - 1;
+                        has_spot_been_found = true;
+                    }
+
+                    if (current_height_level < 0){ // upper bound
+                        //alert("cant fill any further above!");
+                        current_height_level = 0;
+                        has_spot_been_found = true;
+                    }
+                }
+
+                return current_height_level;
+            }
+
+            childAppender(){// Most inner element to the most outer element.
+                for (let i = 0; i < arguments.length; i++) if (i+1 < arguments.length) arguments[i+1].appendChild(arguments[i]);
+            }
+
+            printArray(arr){
+                let s="";
+                for (let i=0; i<arr.length; i++){
+                    if (i !== arr.length-1) s += "["+i+"]"+arr[i]+",";
+                    else s += "["+i+"]"+arr[i];
+                }
+                return s;
+            }
+
+            isCompatible(agent="Win"){
+                return ((navigator.appVersion).indexOf(agent) > -1);
+            }
+
+            exitGameApp(){
+                alert("exit game app!")
+            }
+        }
+
+        function isRealBlock(s){
+            let num_index = -1;
+            for (let l=0; l<s.length; l++) if (isSingleDigit(s.substring(l, l+1))) num_index = l-1;
+
+            if (num_index < 0) return false;
+            else return true;
+        }
+
+        var icl = new iceCreamLove();
+        document.body.onclick = (e)=>{
+            console.log(e.target.id);
+            e.stopPropagation();
+            let extract = e.target.id;
+
+            if (isRealBlock(extract)) icl.blockClick(parseInt(extract.substring(5)));
+            else if ((extract === "ui_pause") || (extract === "hud_button_pause")) icl.pauseGame();
+            else if (extract === "exit_btn") icl.exitGameApp();
+            else if (extract === "ui_restart") icl.resetGame();
+            else if ((extract === "btn_main_menu") || extract === "main_menu") {
+                $.id("gamecont").innerHTML = "";
+                icl.simpleMenu();
+            } else if (extract === "play_game") {
+                $.id("gamecont").innerHTML = "";
+                icl.beginGame();
+            } else if (extract === "ui_crate"){
+                if (ui_crate.classList.contains("hud_button_crate_destroy")) {
+                    ui_crate.classList.remove("hud_button_crate_destroy");
+                    icl.createblock = true;
+                }
+                else {
+                    ui_crate.classList.add("hud_button_crate_destroy");
+                    icl.createblock = false;
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
