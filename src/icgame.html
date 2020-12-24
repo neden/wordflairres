@@ -9,12 +9,16 @@
         user-select: none;
         outline: none;
     }
-   
+
    *:focus {
       box-shadow: none;
-      outline:0 !important;       
+      outline:0 !important;
    }
-   
+
+   #gamecont {
+      overflow: hidden;
+   }
+
    .noscrollui::-webkit-scrollbar{
       display: none;
    }
@@ -1578,7 +1582,8 @@
                         gameplans.style.background = "#3AA8C1";
                         gameplans.style.position = "absolute";
                         gameplans.style.zIndex = "10";
-                        gameplans.innerHTML = "<span style='margin: 15px;display:flex;align-items:center;justify-content:center;flex-direction: column;'><p style=' text-align:center; font-weight: bold; color: gold; text-shadow:1px 0px #3497ad, -1px 0px #287586; font-size:1.4em; font-family:Calibri'><font color='orange' style='text-decoration:underline'>Remember, this game is still in early-alpha phase!</font><br> It's still very early in development.<br>Planned Gameplay Features<br><br></p><p style='text-align:left; flex-direction: column; font-weight: bold; color: white; text-shadow:1px 0px #3497ad, -1px 0px #287586; font-size:1.4em; font-family:Calibri'>1. Varying background environments<br>2. Complex pre-made level terrain matching overall environment.<br>3. Different crates selections with different powerups/abilities.<br>4. Enemies - Smart and dumb <br>5. Level transitions to expand overall levels.<br>6. Multiple goals and sub-goals.<br>7. Major boss enemy at the end of levels.<br>8. Puzzle Solving quests<br>9. Environmental traps and pitfalls.<br>10. Powerup pickups that will help control character/reduce character's erratic movement.<br>11. Mini-story with cutscenes (maybe)<br><br><font color='lightgreen'>Click anywhere to exit.</font><p></span>";
+                        gameplans.style.overflow = "scroll";
+                        gameplans.innerHTML = "<span style='position:absolute; left: 0; top: 0; margin: 25px;'><p style=' text-align:center; font-weight: bold; color: gold; text-shadow:1px 0px #3497ad, -1px 0px #287586; font-size:1.4em; font-family:Calibri'><font color='orange' style='text-decoration:underline'>Remember, this game is still in early-alpha phase!</font><br> It's still very early in development.<br>Planned Gameplay Features<br><br></p><p style='text-align:left; flex-direction: column; font-weight: bold; color: white; text-shadow:1px 0px #3497ad, -1px 0px #287586; font-size:1.4em; font-family:Calibri'>1. Varying background environments<br>2. Complex pre-made level terrain matching overall environment.<br>3. Different crates selections with different powerups/abilities.<br>4. Enemies - Smart and dumb <br>5. Level transitions to expand overall levels.<br>6. Multiple goals and sub-goals.<br>7. Major boss enemy at the end of levels.<br>8. Puzzle Solving quests<br>9. Environmental traps and pitfalls.<br>10. Powerup pickups that will help control character/reduce character's erratic movement.<br>11. Mini-story with cutscenes (maybe)<br><br><font color='lightgreen'>Click anywhere to exit.</font><br><br><p></span>";
 
                         gameplans.onclick = ()=>{
                             $.id("gamecont").removeChild(gameplans);
@@ -1730,7 +1735,7 @@
                 return ((navigator.appVersion).indexOf(agent) > -1);
             }
 
-            exitGameApp(){                
+            exitGameApp(){
                var obj = {closeapp: 1};
                var strobj = JSON.stringify(obj);
                webkit.messageHandlers.cordova_iab.postMessage(strobj);
