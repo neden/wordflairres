@@ -9,6 +9,15 @@
         user-select: none;
         outline: none;
     }
+   
+   *:focus {
+      box-shadow: none;
+      outline:0 !important;       
+   }
+   
+   .noscrollui::-webkit-scrollbar{
+      display: none;
+   }
 
     .full_cont{
         width: 100%;
@@ -1065,7 +1074,7 @@
 
                 if (!undull($.id("gamecont"))) document.body.removeChild($.id("gamecont"));
 
-                let gamecont = createComponent("gamecont", document.body, "div", ["overflow_hidden"]);
+                let gamecont = createComponent("gamecont", document.body, "div", ["overflow_hidden", "noscrollui"]);
                 let mainmenucont = createComponent("mainmenucont", gamecont, "div", ["flex_center", "full_cont", "abs", "gradientanim", "overflow_hidden"]);
                 mainmenucont.style.transformOrigin = "center";
                 mainmenucont.style.flexDirection = "column";
@@ -1136,7 +1145,7 @@
                 http://www.spriteland.com/images/ruined-city-background.jpg
                 http://www.spriteland.com/sprites/downloads/dark-mountain-vector-background_SVG.svg
                 */
-                $.cn("gamebackground")[0].style.backgroundImage = "url('http://www.spriteland.com/images/ruined-city-background.jpg')";
+                //$.cn("gamebackground")[0].style.backgroundImage = "url('http://www.spriteland.com/images/ruined-city-background.jpg')";
             }
 
             setInitialValues(){
@@ -1274,8 +1283,8 @@
 
                 let resume_game = createComponent("resume_game", resume_game_cont, "div", ["flex_center", "full_cont", "orange_gradient"]);
                 resume_game.innerHTML = "Resume";
-                resume_game.style.fontSize = "0.6em";
-                resume_game.style.width = "50%";
+                resume_game.style.fontSize = "0.45em";
+                resume_game.style.width = "60%";
                 resume_game.style.height = "90%";
 
                 resume_game_cont.onclick = ()=>{
@@ -1290,8 +1299,8 @@
 
                 let gomainmenu = createComponent("gomainmenu", main_menu_cont, "div", ["flex_center", "full_cont", "orange_gradient"]);
                 gomainmenu.innerHTML = "mainmenu";
-                gomainmenu.style.fontSize = "0.6em";
-                gomainmenu.style.width = "50%";
+                gomainmenu.style.fontSize = "0.45em";
+                gomainmenu.style.width = "60%";
                 gomainmenu.style.height = "90%";
 
                 main_menu_cont.onclick = ()=>{
