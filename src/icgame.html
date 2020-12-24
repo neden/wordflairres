@@ -7,6 +7,7 @@
         margin:0;
         padding:0;
         user-select: none;
+        outline: none;
     }
 
     .full_cont{
@@ -105,7 +106,7 @@
     .gamebackground{
         /*background-color: lightyellow;*/
         background-size: 100% 100%;
-        background-image: url("http://www.spriteland.com/sprites/downloads/dark-mountain-vector-background_SVG.svg");
+        background-image: linear-gradient(45deg, rgba(171, 212, 83, 0.7) 0%, rgba(171, 212, 83, 0.7) 12.5%,rgba(218, 229, 42, 0.7) 12.5%, rgba(218, 229, 42, 0.7) 25%,rgba(125, 195, 123, 0.7) 25%, rgba(125, 195, 123, 0.7) 37.5%,rgba(194, 221, 63, 0.7) 37.5%, rgba(194, 221, 63, 0.7) 50%,rgba(78, 178, 164, 0.7) 50%, rgba(78, 178, 164, 0.7) 62.5%,rgba(148, 204, 103, 0.7) 62.5%, rgba(148, 204, 103, 0.7) 75%,rgba(241, 238, 22, 0.7) 75%, rgba(241, 238, 22, 0.7) 87.5%,rgba(101, 187, 144, 0.7) 87.5%, rgba(101, 187, 144, 0.7) 100%),linear-gradient(0deg, rgb(73, 182, 19),rgb(231, 253, 15));
         opacity: 1;
         animation-name: background_animation;
         animation-duration: 6s;
@@ -1274,7 +1275,7 @@
                 let resume_game = createComponent("resume_game", resume_game_cont, "div", ["flex_center", "full_cont", "orange_gradient"]);
                 resume_game.innerHTML = "Resume";
                 resume_game.style.fontSize = "0.6em";
-                resume_game.style.width = "35%";
+                resume_game.style.width = "50%";
                 resume_game.style.height = "90%";
 
                 resume_game_cont.onclick = ()=>{
@@ -1290,7 +1291,7 @@
                 let gomainmenu = createComponent("gomainmenu", main_menu_cont, "div", ["flex_center", "full_cont", "orange_gradient"]);
                 gomainmenu.innerHTML = "mainmenu";
                 gomainmenu.style.fontSize = "0.6em";
-                gomainmenu.style.width = "35%";
+                gomainmenu.style.width = "50%";
                 gomainmenu.style.height = "90%";
 
                 main_menu_cont.onclick = ()=>{
@@ -1720,8 +1721,10 @@
                 return ((navigator.appVersion).indexOf(agent) > -1);
             }
 
-            exitGameApp(){
-                alert("exit game app!")
+            exitGameApp(){                
+               var obj = {closeapp: 1};
+               var strobj = JSON.stringify(obj);
+               webkit.messageHandlers.cordova_iab.postMessage(strobj);
             }
         }
 
